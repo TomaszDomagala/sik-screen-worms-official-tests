@@ -159,6 +159,9 @@ class TestServer200(unittest.TestCase):
 		for client in clients:
 			self.assertClientReceived(client, expected)
 
+	def assertClientEmpty(self, client: Client):
+		self.assertEqual(client.pull_events(), [], "Client received messages, but shouldn't.")
+
 	def start_server(self, seed, width=800, height=600, rounds_per_sec=2):
 		args = [f"-s {seed}", f"-v {rounds_per_sec}", f"-w {width}", f"-h {height}"]
 		s = start_server(self.port, args)
@@ -240,6 +243,7 @@ class TestServer200(unittest.TestCase):
 		])
 
 		self.assertClientReceived(self.clients[0], expected_events)
+		self.assertClientEmpty(self.clients[1])
 		self.assertClientReceived(self.clients[2], expected_events)
 
 	def test_204(self):
@@ -314,7 +318,7 @@ class TestServer200(unittest.TestCase):
 		])
 
 		self.assertClientsReceived(self.clients[1:], expected_events)
-		self.assertEqual(self.clients[0].pull_events(), [])
+		self.assertClientEmpty(self.clients[0])
 
 	def test_207(self):
 		"""
@@ -340,7 +344,7 @@ class TestServer200(unittest.TestCase):
 		])
 
 		self.assertClientsReceived(self.clients[1:], expected_events)
-		self.assertEqual(self.clients[0].pull_events(), [])
+		self.assertClientEmpty(self.clients[0])
 
 	def test_208(self):
 		"""
@@ -366,7 +370,7 @@ class TestServer200(unittest.TestCase):
 		])
 
 		self.assertClientsReceived(self.clients[1:], expected_events)
-		self.assertEqual(self.clients[0].pull_events(), [])
+		self.assertClientEmpty(self.clients[0])
 
 	def test_209(self):
 		"""
@@ -393,7 +397,7 @@ class TestServer200(unittest.TestCase):
 		])
 
 		self.assertClientsReceived(self.clients[1:], expected_events)
-		self.assertEqual(self.clients[0].pull_events(), [])
+		self.assertClientEmpty(self.clients[0])
 
 	def test_210(self):
 		"""
@@ -540,7 +544,7 @@ class TestServer200(unittest.TestCase):
 		])
 
 		self.assertClientsReceived(self.clients[1:], expected_events)
-		self.assertEqual(self.clients[0].pull_events(), [], "Disconnected client0 received events.")
+		self.assertClientEmpty(self.clients[0])
 
 
 if __name__ == '__main__':

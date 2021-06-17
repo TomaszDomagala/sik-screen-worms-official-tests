@@ -25,7 +25,7 @@ class TestServer100(unittest.TestCase):
 		self.start_server(args)
 		exit_code = self.server.poll()
 		self.assertIsNot(exit_code, None, "Server didn't exit.")
-		self.assertEqual(self.server.poll(), 1, f"return code {exit_code}, expected 1.")
+		self.assertEqual(exit_code, 1, f"return code {exit_code}, expected 1.")
 
 	def test_101(self):
 		self.do_test("W")
